@@ -76,9 +76,10 @@ services:
       - key: QDRANT_PORT
         value: "6333"
       - key: WAIT_FOR_SERVICES
-        value: "qdrant:6333"
+        value: "qdrant:6333?timeout=120s"
     dependsOn:
-      - qdrant
+      - name: qdrant
+        skipHealthCheck: false
 
   - type: web
     name: wren-engine
@@ -114,7 +115,8 @@ services:
     plan: starter
     region: oregon
     autoDeploy: true
-    healthCheckPath: /health
+    healthCheckPath: /healthz
+    healthCheckTimeoutSeconds: 30
     disk:
       name: data
       mountPath: /qdrant/storage
