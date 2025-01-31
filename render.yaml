@@ -1,55 +1,83 @@
 services:
   - type: web
-    name: otto-ui
-    env: docker
-    dockerfilePath: ./docker/Dockerfile
+    name: wren-ui
+    runtime: docker
+    dockerfilePath: ./wren-ui/Dockerfile
+    buildCommand: docker build -t wren-ui .
+    plan: starter
+    healthCheckPath: /api/health
     envVars:
-      - key: OTTO_ENGINE_PORT
-        value: 8080
-      - key: OTTO_ENGINE_SQL_PORT
-        value: 7432
-      - key: OTTO_AI_SERVICE_PORT
-        value: 5555
-      - key: OTTO_UI_PORT
-        value: 3000
+      - key: WREN_ENGINE_PORT
+        value: "8080"
+      - key: WREN_ENGINE_SQL_PORT
+        value: "7432"
+      - key: WREN_AI_SERVICE_PORT
+        value: "5555"
+      - key: WREN_UI_PORT
+        value: "3000"
       - key: IBIS_SERVER_PORT
-        value: 8000
+        value: "8000"
       - key: LLM_OPENAI_API_KEY
         sync: false
       - key: EMBEDDER_OPENAI_API_KEY
         sync: false
       - key: TELEMETRY_ENABLED
-        value: false
+        value: "false"
       - key: HOST_PORT
-        value: 3001
+        value: "3001"
       - key: AI_SERVICE_FORWARD_PORT
-        value: 5555
+        value: "5555"
       - key: EXPERIMENTAL_ENGINE_RUST_VERSION
-        value: false
+        value: "false"
+      - key: WREN_PRODUCT_VERSION
+        value: "0.15.2"
+      - key: WREN_UI_VERSION
+        value: "0.20.1"
 
   - type: web
-    name: otto-ai-service
-    env: docker
-    dockerfilePath: ./docker/Dockerfile
+    name: wren-ai-service
+    runtime: docker
+    dockerfilePath: ./wren-ai-service/Dockerfile
+    buildCommand: docker build -t wren-ai-service .
+    plan: starter
+    healthCheckPath: /health
     envVars:
       - key: PYTHONUNBUFFERED
-        value: 1
+        value: "1"
       - key: CONFIG_PATH
-        value: /app/data/config.yaml
+        value: "/app/data/config.yaml"
+      - key: QDRANT_HOST
+        value: "qdrant"
+      - key: SHOULD_FORCE_DEPLOY
+        value: "1"
+      - key: WREN_AI_SERVICE_VERSION
+        value: "0.15.5"
 
   - type: web
-    name: otto-engine
-    env: docker
-    dockerfilePath: ./docker/Dockerfile
+    name: wren-engine
+    runtime: docker
+    dockerfilePath: ./wren-engine/Dockerfile
+    buildCommand: docker build -t wren-engine .
+    plan: starter
+    healthCheckPath: /health
     envVars:
       - key: DATA_PATH
-        value: /app/data
+        value: "/app/data"
+      - key: WREN_ENGINE_VERSION
+        value: "0.13.1"
 
   - type: web
     name: qdrant
-    env: docker
-    image: qdrant/qdrant:v1.11.0
+    runtime: docker
+    dockerfilePath: Dockerfile
+    image:
+      url: qdrant/qdrant:v1.11.0
+    plan: starter
+    healthCheckPath: /health
     disk:
       name: data
       mountPath: /qdrant/storage
-      sizeGB: 10 
+      sizeGB: 10
+    envVars:
+      - key: QDRANT_API_KEY
+        sync: false 

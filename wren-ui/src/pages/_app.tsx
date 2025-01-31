@@ -60,7 +60,7 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Otto AI</title>
+        <title>wrenAI</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ApolloProvider client={apolloClient}>
