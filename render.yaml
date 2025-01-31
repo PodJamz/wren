@@ -2,8 +2,9 @@ services:
   - type: web
     name: wren-ui
     runtime: docker
+    repo: https://github.com/PodJamz/wren.git
     dockerfilePath: ./wren-ui/Dockerfile
-    buildCommand: docker build -t wren-ui .
+    rootDir: wren-ui
     plan: starter
     healthCheckPath: /api/health
     envVars:
@@ -37,8 +38,9 @@ services:
   - type: web
     name: wren-ai-service
     runtime: docker
+    repo: https://github.com/PodJamz/wren.git
     dockerfilePath: ./wren-ai-service/Dockerfile
-    buildCommand: docker build -t wren-ai-service .
+    rootDir: wren-ai-service
     plan: starter
     healthCheckPath: /health
     envVars:
@@ -56,8 +58,9 @@ services:
   - type: web
     name: wren-engine
     runtime: docker
+    repo: https://github.com/PodJamz/wren.git
     dockerfilePath: ./wren-engine/Dockerfile
-    buildCommand: docker build -t wren-engine .
+    rootDir: wren-engine
     plan: starter
     healthCheckPath: /health
     envVars:
@@ -69,6 +72,7 @@ services:
   - type: web
     name: qdrant
     runtime: docker
+    repo: https://github.com/qdrant/qdrant
     image:
       url: registry.hub.docker.com/qdrant/qdrant:v1.11.0
     plan: starter
