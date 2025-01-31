@@ -1,0 +1,55 @@
+services:
+  - type: web
+    name: otto-ui
+    env: docker
+    dockerfilePath: ./docker/Dockerfile
+    envVars:
+      - key: OTTO_ENGINE_PORT
+        value: 8080
+      - key: OTTO_ENGINE_SQL_PORT
+        value: 7432
+      - key: OTTO_AI_SERVICE_PORT
+        value: 5555
+      - key: OTTO_UI_PORT
+        value: 3000
+      - key: IBIS_SERVER_PORT
+        value: 8000
+      - key: LLM_OPENAI_API_KEY
+        sync: false
+      - key: EMBEDDER_OPENAI_API_KEY
+        sync: false
+      - key: TELEMETRY_ENABLED
+        value: false
+      - key: HOST_PORT
+        value: 3001
+      - key: AI_SERVICE_FORWARD_PORT
+        value: 5555
+      - key: EXPERIMENTAL_ENGINE_RUST_VERSION
+        value: false
+
+  - type: web
+    name: otto-ai-service
+    env: docker
+    dockerfilePath: ./docker/Dockerfile
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: CONFIG_PATH
+        value: /app/data/config.yaml
+
+  - type: web
+    name: otto-engine
+    env: docker
+    dockerfilePath: ./docker/Dockerfile
+    envVars:
+      - key: DATA_PATH
+        value: /app/data
+
+  - type: web
+    name: qdrant
+    env: docker
+    image: qdrant/qdrant:v1.11.0
+    disk:
+      name: data
+      mountPath: /qdrant/storage
+      sizeGB: 10 
