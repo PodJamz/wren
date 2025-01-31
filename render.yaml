@@ -1,3 +1,6 @@
+previews:
+  generation: automatic
+
 services:
   - type: web
     name: wren-ui
@@ -6,6 +9,14 @@ services:
     dockerfilePath: ./wren-ui/Dockerfile
     rootDir: wren-ui
     plan: starter
+    region: oregon
+    autoDeploy: true
+    maxShutdownDelaySeconds: 60
+    scaling:
+      minInstances: 1
+      maxInstances: 1
+      targetMemoryPercent: 60
+      targetCPUPercent: 60
     healthCheckPath: /api/health
     envVars:
       - key: WREN_ENGINE_PORT
@@ -42,6 +53,14 @@ services:
     dockerfilePath: ./wren-ai-service/Dockerfile
     rootDir: wren-ai-service
     plan: starter
+    region: oregon
+    autoDeploy: true
+    maxShutdownDelaySeconds: 60
+    scaling:
+      minInstances: 1
+      maxInstances: 1
+      targetMemoryPercent: 60
+      targetCPUPercent: 60
     healthCheckPath: /health
     envVars:
       - key: PYTHONUNBUFFERED
@@ -62,6 +81,14 @@ services:
     dockerfilePath: ./wren-engine/Dockerfile
     rootDir: wren-engine
     plan: starter
+    region: oregon
+    autoDeploy: true
+    maxShutdownDelaySeconds: 60
+    scaling:
+      minInstances: 1
+      maxInstances: 1
+      targetMemoryPercent: 60
+      targetCPUPercent: 60
     healthCheckPath: /health
     envVars:
       - key: DATA_PATH
@@ -76,6 +103,14 @@ services:
     image:
       url: registry.hub.docker.com/qdrant/qdrant:v1.11.0
     plan: starter
+    region: oregon
+    autoDeploy: true
+    maxShutdownDelaySeconds: 60
+    scaling:
+      minInstances: 1
+      maxInstances: 1
+      targetMemoryPercent: 60
+      targetCPUPercent: 60
     healthCheckPath: /health
     disk:
       name: data
