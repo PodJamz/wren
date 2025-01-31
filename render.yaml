@@ -69,9 +69,8 @@ services:
   - type: web
     name: qdrant
     runtime: docker
-    dockerfilePath: Dockerfile
     image:
-      url: qdrant/qdrant:v1.11.0
+      url: registry.hub.docker.com/qdrant/qdrant:v1.11.0
     plan: starter
     healthCheckPath: /health
     disk:
