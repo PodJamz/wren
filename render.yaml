@@ -116,7 +116,6 @@ services:
     region: oregon
     autoDeploy: true
     healthCheckPath: /healthz
-    healthCheckTimeoutSeconds: 30
     disk:
       name: data
       mountPath: /qdrant/storage
@@ -126,6 +125,5 @@ services:
         sync: false
       - key: QDRANT_PORT
         value: "6333"
-    ports:
-      - port: 6333
-        protocol: TCP 
+      - key: WAIT_FOR_SERVICES
+        value: "qdrant:6333?timeout=120s" 
