@@ -1,6 +1,3 @@
-previews:
-  generation: automatic
-
 services:
   - type: web
     name: wren-ui
@@ -87,11 +84,6 @@ services:
     plan: starter
     region: oregon
     autoDeploy: true
-    scaling:
-      minInstances: 1
-      maxInstances: 2
-      targetMemoryPercent: 60
-      targetCPUPercent: 60
     healthCheckPath: /health
     disk:
       name: engine-data
