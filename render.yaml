@@ -87,22 +87,21 @@ services:
     plan: starter
     region: oregon
     autoDeploy: true
-    maxShutdownDelaySeconds: 60
     scaling:
       minInstances: 1
       maxInstances: 2
       targetMemoryPercent: 60
       targetCPUPercent: 60
     healthCheckPath: /health
+    disk:
+      name: engine-data
+      mountPath: /app/data
+      sizeGB: 10
     envVars:
       - key: DATA_PATH
         value: "/app/data"
       - key: WREN_ENGINE_VERSION
         value: "0.13.1"
-    disk:
-      name: engine-data
-      mountPath: /app/data
-      sizeGB: 10
 
   - type: pserv
     name: qdrant
@@ -112,7 +111,6 @@ services:
     plan: starter
     region: oregon
     autoDeploy: true
-    healthCheckPath: /healthz
     disk:
       name: data
       mountPath: /qdrant/storage
